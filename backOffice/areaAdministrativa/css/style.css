@@ -1,0 +1,15 @@
+:root {
+    --green: #76b852
+}
+
+.green {
+    color: var(--green);
+}
+
+.bg-green {
+    background-color: var(--green);
+}
+
+.current {
+    font-weight: bold;
+}
