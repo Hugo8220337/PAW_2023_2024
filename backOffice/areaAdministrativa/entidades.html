@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Listar Visitas</title>
+
+    <meta charset="UTF-8" />
+    <meta name="description" content="Listagem das visitas" />
+    <meta name="author" content="Grupo 7" />
+    <link rel="shortcut icon" href="./Imagens/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- 
+		  Começo Menu
+	  -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-green p-3 mb-lg-4">
+      <div class="container-fluid">
+        <img class="logo navbar-brand" src="./imgs/logo.png">
+
+		  <!--  Botão para mostrar o menu nos telemóveis -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="administradores.html">Administradores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link current" href="#">Entidades Benefeciadoras</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="doadores.html">Doadores</a>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php">
+                    <i class="material-icons d-block" style="color: white;">logout</i>
+                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- 
+		  Fim Menu
+	  -->
+
+    <!--
+		Alerta de dados modificados
+	-->
+    <div class="alert alert-success alert-dismissible fade show">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      Dados eliminados com sucesso!
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade show">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      Dados alterados com sucesso!
+    </div>
+    <!--
+		Fim Alerta de dados modificados
+	-->
+
+    <!--
+		Área de Pesquisa
+	-->
+    <form action="index.html" method="GET">
+      <label>Estado:</label>
+      <select name="filtro" id="filtro">
+        <!-- O PHP dentro das opções serve para a opção continuar marcada quando reinicia a página para efetuar a pesquisa -->
+        <option value="0">Todas</option>
+        <option value="Aceite">Aceite</option>
+        <option value="Em Espera">Em Espera</option>
+        <option value="Rejeitado">Rejeitado</option>
+      </select>
+      <input type="hidden" name="seg" value="true" />
+      <!-- Serve para guardar o valor true dentro do GET seg, para não voltar para o login -->
+      <input type="submit" value="Pesquisar" />
+    </form>
+    <!--
+		  Fim da Área de Pesquisa
+	  -->
+
+    <!--
+		Tabela da base de dados
+	-->
+    <div class="table-responsive-sm">
+      <table class="table table-striped">
+        <caption>
+          coisa1 ✔️ coisa2 ❌ coisa3 🕒
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dia</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Escola</th>
+            <th scope="col">Instituição</th>
+            <th scope="col">Orientador</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Localidade</th>
+            <th scope="col">Nº Alunos</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Estado</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <a
+                onclick="return confirmar();"
+                href="apagar_visita.php?id_visita=<?php echo $row['Id_Visita'];?>"
+                ><i class="material-icons green">delete</i></a
+              >
+            </td>
+            <td>
+              <a href="alterar.php?id_visita=<?php echo $row['Id_Visita'];?>"
+                ><i class="material-icons green">mode_edit</i></a
+              >
+            </td>
+          </tr>
+
+		  <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <a
+                onclick="return confirmar();"
+                href="apagar_visita.php?id_visita=<?php echo $row['Id_Visita'];?>"
+                ><i class="material-icons green">delete</i></a
+              >
+            </td>
+            <td>
+              <a href="alterar.php?id_visita=<?php echo $row['Id_Visita'];?>"
+                ><i class="material-icons green">mode_edit</i></a
+              >
+            </td>
+          </tr>
+        </tbody>
+        <!-- ✔️ ❌ 🕒 -->
+      </table>
+    </div>
+    <!--
+		Fim da Tabela da base de dados
+	-->
+
+    <!-- ✔️ ❌ 🕒 -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+
+<script>
+  function confirmar() {
+    let texto = "Tem a certeza que pretende eliminar este registo?";
+    if (confirm(texto) == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
