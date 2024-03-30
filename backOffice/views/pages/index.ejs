@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <%- include('../includes/head'); %>
+  </head>
+  <body>
+    <head>
+      <!-- Navbar-->
+      <%- include('../includes/nav'); %>
+    </head>
+      
+  
+    <main>
+      <!-- Podia ser um switch, mas dá erro -->
+      <% if (pageType === 'administrator') { %>
+        <%- include('../administrators/index'); %>
+      <% } else if (pageType === 'entity') { %>
+        <%- include('../entities/index'); %>
+      <% } else if (pageType === 'donor') { %>
+        <% include('../donors/index'); %>
+      <% } %>
+    </main>
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <footer>
+      <!-- acbo que não vai ser preciso -->
+    </footer>
+  </body>
+</html>
+
+<script>
+  function confirmar() {
+    let texto = "Tem a certeza que pretende eliminar este registo?";
+    if (confirm(texto) == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+

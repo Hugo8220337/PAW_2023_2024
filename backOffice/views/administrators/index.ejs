@@ -1,0 +1,124 @@
+<!--
+		  Alerta de dados modificados
+	  -->
+<div class="alert alert-success alert-dismissible fade show">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  Dados eliminados com sucesso!
+</div>
+
+<div class="alert alert-success alert-dismissible fade show">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  Dados alterados com sucesso!
+</div>
+<!--
+          Fim Alerta de dados modificados
+      -->
+
+<!--
+          Área de Pesquisa
+      -->
+<form action="index.html" method="GET">
+  <label>Estado:</label>
+  <select name="filtro" id="filtro">
+    <!-- O PHP dentro das opções serve para a opção continuar marcada quando reinicia a página para efetuar a pesquisa -->
+    <option value="0">Todas</option>
+    <option value="Aceite">Aceite</option>
+    <option value="Em Espera">Em Espera</option>
+    <option value="Rejeitado">Rejeitado</option>
+  </select>
+  <input type="hidden" name="seg" value="true" />
+  <!-- Serve para guardar o valor true dentro do GET seg, para não voltar para o login -->
+  <input type="submit" value="Pesquisar" />
+</form>
+<!--
+            Fim da Área de Pesquisa
+        -->
+
+<!--
+          Tabela da base de dados
+      -->
+<div class="table-responsive-sm">
+  <table class="table table-striped">
+    <caption>
+      coisa1 ✔️ coisa2 ❌ coisa3 🕒
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Dia</th>
+        <th scope="col">Hora</th>
+        <th scope="col">Escola</th>
+        <th scope="col">Instituição</th>
+        <th scope="col">Orientador</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Localidade</th>
+        <th scope="col">Nº Alunos</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Estado</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <a
+            onclick="return confirmar();"
+            href="apagar_visita.php?id_visita=<?php echo $row['Id_Visita'];?>"
+            ><i class="material-icons green">delete</i></a
+          >
+        </td>
+        <td>
+          <a href="alterar.php?id_visita=<?php echo $row['Id_Visita'];?>"
+            ><i class="material-icons green">mode_edit</i></a
+          >
+        </td>
+      </tr>
+
+      <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <a
+            onclick="return confirmar();"
+            href="apagar_visita.php?id_visita=<?php echo $row['Id_Visita'];?>"
+            ><i class="material-icons green">delete</i></a
+          >
+        </td>
+        <td>
+          <a href="alterar.php?id_visita=<?php echo $row['Id_Visita'];?>"
+            ><i class="material-icons green">mode_edit</i></a
+          >
+        </td>
+      </tr>
+    </tbody>
+    <!-- ✔️ ❌ 🕒 -->
+  </table>
+</div>
+<!--
+          Fim da Tabela da base de dados
+      -->

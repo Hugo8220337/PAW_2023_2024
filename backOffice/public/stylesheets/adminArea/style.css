@@ -1,0 +1,33 @@
+:root {
+  --green: #76b852;
+}
+
+.green {
+  color: var(--green);
+}
+
+.bg-green {
+  background-color: var(--green);
+}
+
+.current {
+  font-weight: bold;
+  color: white;
+}
+
+.logo {
+  /* Colocar o logotipo branco */
+  -webkit-filter: brightness(0) invert(1); /* Safari 6.0 - 9.0 */
+  filter: brightness(0) invert(1);
+}
+
+.table-responsive-sm {
+    overflow: scroll; /* Adiciona um scroll à tabela para não sair do ecrã */
+}
+
+@media (max-width: 576px) {
+  .logo {
+    max-width: 100px; /* Adjust the maximum width of the logo */
+    height: auto; /* Maintain aspect ratio */
+  }
+}
