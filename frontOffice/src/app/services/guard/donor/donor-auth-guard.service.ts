@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
+import { CryptLocalStorage } from '../../../services/CryptLocalStorage';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DonorAuthGuardService {
+
+  constructor(private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
+    if (CryptLocalStorage.getItem('token')) {
+      return true;
+    }
+
+    // redireciona o utilizador para o login do doador
+    this.router.navigate(['/auth/login'], {
+      queryParams: { returnUrl: state.url },
+    });
+
+    return false;
+  }
+}

@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h1 class="card-title mb-0">Lista de Cupões</h1>
+                    <h2 class="card-title mb-0">Senhor(a), <Strong> {{user.name}} </Strong> tem {{user.points}} pontos</h2>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nome da Loja</th>
+                                <th>Morada</th>
+                                <th> </th> <!-- Ícone de olho para os detalhes -->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @for(store of this.stores; track store._id) {
+                                <tr>
+                                    <td>{{ store.name }}</td>
+                                    <td>{{ store.address }}</td>
+                                    <td style="cursor: pointer;"><a style="color: green;" (click)="store._id ? generateToken(store._id) : null"> <i class="material-icons">redeem</i> </a></td>
+                                </tr>
+                              }  
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="text-center pt-4 pb-md-4">
+                    <span class="txt2 mb-4">
+                        A cada 100 pontos tem 5% de desconto onde é possivel apenas ter um maximo de desconto de 30%. <br> 
+                        O minimo de pontos para se conseguir ter desconto é 100 pontos. 
+                    </span> <br>
+                    <span class="txt3 mt-3" style="color: red;">
+                        @if (error) {
+                            {{ error }}
+                        }
+                    </span>
+                </div>
+
+                <button type="button" class="btn btn-danger" routerLink="/donor/dashboard">Voltar</button>
+
+
+            </div>
+        </div>
+    </div>
+</div>

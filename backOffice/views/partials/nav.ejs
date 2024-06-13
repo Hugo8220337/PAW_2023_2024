@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-green p-3 mb-lg-4">
+    <div class="container-fluid">
+      <img class="logo navbar-brand" src="/images/adminArea/logo.png">
+
+        <!--  Botão para mostrar o menu nos telemóveis -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <ul class="navbar-nav me-auto">
+          
+          <% if (userType === 'admin') { %>
+            <li class="nav-item">
+              <a class="nav-link <%= pageType === 'admin' ? 'current' : '' %>" href="/administrators">Administradores</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link <%= pageType === 'employee' ? 'current' : '' %>" href="/employees">Funcionários</a>
+            </li>
+          <% } %>
+
+          <li class="nav-item">
+            <a class="nav-link <%= pageType === 'entity' ? 'current' : '' %>" href="/entities">Entidades Benefeciadoras</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link <%= pageType === 'donor' ? 'current' : '' %>" href="/donors">Doadores</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link <%= pageType === 'donation' ? 'current' : '' %>" href="/donations">Doações</a>
+          </li>
+
+          <% if (userType === 'admin') { %>
+            <li class="nav-item">
+              <a class="nav-link <%= pageType === 'store' ? 'current' : '' %>" href="/stores">Lojas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= pageType === 'condition' ? 'current' : '' %>" href="/conditions">Condições de Items</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= pageType === 'statistics' ? 'current' : '' %>" href="/statistics">Estatísticas</a>
+            </li>
+          <% } %>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+              <a class="nav-link" href="/login/signout">
+                  <i class="material-icons d-block" style="color: white;">logout</i>
+              </a>
+          </li>
+        </ul>
+      
+      </div>
+    </div>
+  </nav>

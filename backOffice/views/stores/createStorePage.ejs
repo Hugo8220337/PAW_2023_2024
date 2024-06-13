@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <%- include('../partials/simpleNav'); %>
+
+    <div class="container">
+        <h1 class="my-5">Adicionaa loja</h1>
+        <form id="adminForm" method="POST" class="mb-5" onsubmit="submitForm(event)" >
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Morada:</label>
+                <input type="text" id="address" name="address" class="form-control" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger" onclick="location.href='/stores'">Voltar</button>
+                <button type="submit" class="btn btn-success">Adicionar loja</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        // Função para lidar com a submissão do formulário
+        function submitForm(event) {
+            event.preventDefault(); // Evitar o comportamento padrão de enviar o formulário
+
+            var token = `<%= token %>`
+
+            // Dados do formulário
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('address', document.getElementById('address').value);
+
+            // Faça a requisição para o endpoint desejado
+            fetch('http://localhost:5000/api/stores/', {
+                method: 'POST',
+                headers: {
+                    'x-access-token': token
+                },
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw Error('Ocorreu um erro ao adicionar a loja.' + response);
+                    }
+
+                    // Redirect to the stores list page
+                    // window.location.href = '/stores?add=true';
+                    // Redirect to the stores list page
+                    window.location.replace('/stores?add=' + true);
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Ocorreu um erro ao adicionar a loja.' + error);
+                });
+        }
+    </script>
+</body>
+
+
+</html>

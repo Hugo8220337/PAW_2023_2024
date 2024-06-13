@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-end">
+  <button type="button" (click)="logout()" class="btn btn-primary">
+    <span class="material-icons">
+      logout
+      </span>
+  </button>
+</div>
+
+<div class="container py-5">
+  <div class="row">
+    <!-- Área da esqueda -->
+    <!-- <div class="col-lg-4">
+      <app-user-profile [entity] = "this.entity"></app-user-profile>
+    </div> -->
+    
+    
+
+    <!-- Área da direita -->
+    <div class="col-lg-12">
+
+      <!-- informações de Contacto -->
+      <app-user-information (entityEdited)="this.getEntityData()" [entity]="this.entity"></app-user-information>
+
+    </div>
+  </div>
+
+  <!-- Tabela de doações -->
+  <app-donations-table (statusSaved) = "loadData()" [donations]="this.donations" [donationRequests]="this.donationRequests" [userType]="'entity'" [error]="this.error"></app-donations-table>
+
+</div>

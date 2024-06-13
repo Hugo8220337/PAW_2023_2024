@@ -1,0 +1,25 @@
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
+
+<script>
+  google.charts.load("current", {
+    packages: ["geochart", 'bar']
+  });
+</script>
+
+<script src="/js/statistics/statistics.js"></script>
+
+<button onclick="getDonorCountryData('<%= token %>')">Mapa de Doadores</button>
+<button onclick="getEntityCountryData('<%= token %>')">Mapa de Entidades</button>
+<button onclick="getDonationsYearyData('<%= token %>')">Doações por ano</button>
+<button onclick="getDonationsMonthData('<%= token %>')">Doações por mês</button>
+
+<div class="container h-100">
+  <div class="row justify-content-center align-items-center">
+    <div id="regions_div" style="width: 900px; height: 500px"></div>
+  </div>
+</div>
+
+<!-- Scripts para a API -->

@@ -1,0 +1,2265 @@
+  {
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": " Swagger Recicla Textil",
+      "description": ""
+    },
+    "host": "localhost:5000",
+    "basePath": "/api/v1",
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "tags": [
+      {
+        "name": "Administrators",
+        "description": "API para gerir administradores no sistema"
+      },
+      {
+        "name": "Authentication",
+        "description": "API para autenticação do sistema"
+      },
+      {
+        "name": "DonationRequests",
+        "description": "API para os pedidos de doações do sistema"
+      },
+      {
+        "name": "Donations",
+        "description": "API para as doações do sistema"
+      },
+      {
+        "name": "Donors",
+        "description": "API gerir doadores no sistema"
+      },
+      {
+        "name": "Employees",
+        "description": "API gerir funcionários no sistema"
+      },
+      {
+        "name": "Entities",
+        "description": "API gerir entidades no sistema"
+      },
+      {
+        "name": "Statistics",
+        "description": "API que mostra as estatísticas do sistema"
+      },
+      {
+        "name": "Coupons",
+        "description": "API que gera os copões para o doador"
+      },
+      {
+        "name": "Stores",
+        "description": "API que mostra as lojas que apadrinham o sistema"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/administrators/list": {
+        "get": {
+          "summary": "Lista todos os administradores",
+          "tags": [
+            "Administrators"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de administradores",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Admin"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/administrators/register": {
+        "post": {
+          "summary": "Regista um novo administrador",
+          "tags": [
+            "Administrators"
+          ],
+          "responses": {
+            "201": {
+              "description": "Administrador criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Admin"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/administrators/{id}": {
+        "get": {
+          "summary": "Obtém os dados de um administrador específico",
+          "tags": [
+            "Administrators"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The administrator ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Administrador detalhes",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Admin"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Administrador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualiza os dados de um administrador",
+          "tags": [
+            "Administrators"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The administrator ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Administrador atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Admin"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "404": {
+              "description": "Administrador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove um administrador",
+          "tags": [
+            "Administrators"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The administrator ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Administrador removido com sucesso"
+            },
+            "404": {
+              "description": "Administrador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/administrators/password/{id}": {
+        "put": {
+          "summary": "Altera a password de um administrador",
+          "tags": [
+            "Administrators"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The administrator ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password alterada com sucesso"
+            },
+            "400": {
+              "description": "Password antiga incorreta"
+            },
+            "404": {
+              "description": "Administrador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/admin": {
+        "post": {
+          "summary": "Login de um Administrador",
+          "tags": [
+            "Authentication"
+          ],
+          "responses": {
+            "200": {
+              "description": "Login efetuado com sucesso"
+            },
+            "401": {
+              "description": "Credenciais inválidas"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/donor": {
+        "post": {
+          "summary": "Login de um Doador",
+          "tags": [
+            "Authentication"
+          ],
+          "responses": {
+            "200": {
+              "description": "Login efetuado com sucesso"
+            },
+            "401": {
+              "description": "Credenciais inválidas"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/entity": {
+        "post": {
+          "summary": "Login de uma Entidade",
+          "tags": [
+            "Authentication"
+          ],
+          "responses": {
+            "200": {
+              "description": "Login efetuado com sucesso"
+            },
+            "401": {
+              "description": "Credenciais inválidas"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/registerEntity": {
+        "post": {
+          "summary": "Registar uma Entidade",
+          "tags": [
+            "Authentication"
+          ],
+          "responses": {
+            "201": {
+              "description": "Entidade registada com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/registerDonor": {
+        "post": {
+          "summary": "Registar um Doador",
+          "tags": [
+            "Authentication"
+          ],
+          "responses": {
+            "201": {
+              "description": "Doador registado com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/forgotPassword": {
+        "post": {
+          "summary": "Esqueci minha password",
+          "tags": [
+            "Authentication"
+          ],
+          "responses": {
+            "200": {
+              "description": "Instruções de redefinição de password enviadas"
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/auth/resetPassword/{token}": {
+        "post": {
+          "summary": "Redefinir password",
+          "tags": [
+            "Authentication"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "Token de redefinição de password"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password redefinida com sucesso"
+            },
+            "400": {
+              "description": "Token inválido ou expirado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests/list": {
+        "get": {
+          "summary": "Lista os pedidos de doações",
+          "tags": [
+            "DonationRequests"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de pedidos de doações",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/DonationRequest"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests/donor/{donorId}": {
+        "get": {
+          "summary": "Lista pedidos de doação de um Doador em específico",
+          "tags": [
+            "DonationRequests"
+          ],
+          "parameters": [
+            {
+              "name": "donorId",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do Doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de pedidos de doação do Doador",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/DonationRequest"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests/entity/{entityId}": {
+        "get": {
+          "summary": "Lista pedidos de doação de uma Entidade em específico",
+          "tags": [
+            "DonationRequests"
+          ],
+          "parameters": [
+            {
+              "name": "entityId",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Entidade"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de pedidos de doação da Entidade",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/DonationRequest"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests/{donationRequestId}": {
+        "get": {
+          "summary": "Procura uma doação específica",
+          "tags": [
+            "DonationRequests"
+          ],
+          "parameters": [
+            {
+              "name": "donationRequestId",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Doação"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Detalhes da doação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/DonationRequest"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Doação não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests": {
+        "post": {
+          "summary": "Cria um registo de doação",
+          "tags": [
+            "DonationRequests"
+          ],
+          "responses": {
+            "201": {
+              "description": "Doação criada com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests/{id}": {
+        "delete": {
+          "summary": "Remove uma doação específica",
+          "tags": [
+            "DonationRequests"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Doação"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Doação removida com sucesso"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Doação não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donationRequests/status/{id}": {
+        "patch": {
+          "summary": "Atualiza o status de um pedido de doação",
+          "tags": [
+            "DonationRequests"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do Pedido de Doação"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Status atualizado com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Pedido de Doação não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donations/list": {
+        "get": {
+          "summary": "Lista as doações",
+          "tags": [
+            "Donations"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de doações",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Donation"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donations/register": {
+        "post": {
+          "summary": "Cria uma doação",
+          "tags": [
+            "Donations"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Donation"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Doação criada com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donations/{id}": {
+        "get": {
+          "summary": "GET para buscar os dados de uma doação específico",
+          "tags": [
+            "Donations"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Doação"
+            }
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Detalhes da doação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Donation"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Doação não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar a informação de uma doação específica",
+          "tags": [
+            "Donations"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Doação"
+            }
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Donation"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Doação atualizada com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "404": {
+              "description": "Doação não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Procura uma doação em especifico para remover",
+          "tags": [
+            "Donations"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Doação"
+            }
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Doação removida com sucesso"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Doação não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donations/donor/{donorId}": {
+        "get": {
+          "summary": "Lista doações de um Doador em específico",
+          "tags": [
+            "Donations"
+          ],
+          "parameters": [
+            {
+              "name": "donorId",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do Doador"
+            }
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de doações do Doador",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Donation"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donations/entity/{entityId}": {
+        "get": {
+          "summary": "Lista doações de uma Entidade em específico",
+          "tags": [
+            "Donations"
+          ],
+          "parameters": [
+            {
+              "name": "entityId",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Entidade"
+            }
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de doações da Entidade",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Donation"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donations/status/{id}": {
+        "patch": {
+          "summary": "PATCH: Alterar o status da doação",
+          "tags": [
+            "Donations"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da Doação"
+            }
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pendente",
+                        "em_andamento",
+                        "concluída"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Status da doação atualizado com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Doação não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donors/list": {
+        "get": {
+          "summary": "Lista de todos os doadores",
+          "tags": [
+            "Donors"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de doadores",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Donor"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donors/register": {
+        "post": {
+          "summary": "Regista um novo doador",
+          "tags": [
+            "Donors"
+          ],
+          "responses": {
+            "201": {
+              "description": "Doador registado com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donors/{id}": {
+        "get": {
+          "summary": "Obtém os dados de um doador específico",
+          "tags": [
+            "Donors"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Detalhes do doador",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Donor"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Doador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualiza os dados de um doador",
+          "tags": [
+            "Donors"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Doador atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Donor"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "404": {
+              "description": "Doador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove um doador",
+          "tags": [
+            "Donors"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Doador removido com sucesso"
+            },
+            "404": {
+              "description": "Doador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donors/password/{id}": {
+        "put": {
+          "summary": "Altera a password de um doador",
+          "tags": [
+            "Donors"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password alterada com sucesso"
+            },
+            "400": {
+              "description": "password antiga incorreta"
+            },
+            "404": {
+              "description": "Doador não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/donors/image/{id}": {
+        "get": {
+          "summary": "Obtém a imagem de perfil de um doador específico",
+          "tags": [
+            "Donors"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Imagem de perfil do doador",
+              "content": {
+                "image/jpeg": {
+                  "schema": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Imagem de perfil não encontrada para o doador especificado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove a imagem de perfil de um doador",
+          "tags": [
+            "Donors"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do doador"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Imagem de perfil do doador removida com sucesso"
+            },
+            "404": {
+              "description": "Imagem de perfil não encontrada para o doador especificado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/employees/list": {
+        "get": {
+          "summary": "Lista de todos os funcionários",
+          "tags": [
+            "Employees"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de funcionários",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Employee"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/employees/register": {
+        "post": {
+          "summary": "Regista um novo funcionário",
+          "tags": [
+            "Employees"
+          ],
+          "responses": {
+            "201": {
+              "description": "Funcionário registado com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/employees/{id}": {
+        "get": {
+          "summary": "Obtém os dados de um funcionário específico",
+          "tags": [
+            "Employees"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do funcionário"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Detalhes do funcionário",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Employee"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Funcionário não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualiza os dados de um funcionário",
+          "tags": [
+            "Employees"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do funcionário"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Funcionário atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Employee"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "404": {
+              "description": "Funcionário não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove um funcionário",
+          "tags": [
+            "Employees"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do funcionário"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Funcionário removido com sucesso"
+            },
+            "404": {
+              "description": "Funcionário não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/employees/password/{id}": {
+        "put": {
+          "summary": "Altera a password de um funcionário",
+          "tags": [
+            "Employees"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do funcionário"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password alterada com sucesso"
+            },
+            "400": {
+              "description": "password antiga incorreta"
+            },
+            "404": {
+              "description": "Funcionário não encontrado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/entities/list": {
+        "get": {
+          "summary": "Lista de todas as entidades",
+          "tags": [
+            "Entities"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de entidades",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Entity"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/entities/filter": {
+        "get": {
+          "summary": "Lista de entidades filtradas por critérios",
+          "tags": [
+            "Entities"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de entidades filtradas",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Entity"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/entities/{id}": {
+        "get": {
+          "summary": "Obtém os dados de uma entidade específica",
+          "tags": [
+            "Entities"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da entidade"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Detalhes da entidade",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Entity"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Entidade não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualiza os dados de uma entidade",
+          "tags": [
+            "Entities"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da entidade"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Entidade atualizada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Entity"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request (e.g., invalid data)"
+            },
+            "404": {
+              "description": "Entidade não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove uma entidade",
+          "tags": [
+            "Entities"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da entidade"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Entidade removida com sucesso"
+            },
+            "404": {
+              "description": "Entidade não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/entities/register": {
+        "post": {
+          "summary": "Regista uma nova entidade",
+          "tags": [
+            "Entities"
+          ],
+          "responses": {
+            "201": {
+              "description": "Entidade registada com sucesso"
+            },
+            "400": {
+              "description": "Bad Request (e.g., missing data)"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/entities/remove/{id}": {
+        "delete": {
+          "summary": "Remove uma entidade pelo ID",
+          "tags": [
+            "Entities"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da entidade"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Entidade removida com sucesso"
+            },
+            "404": {
+              "description": "Entidade não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/entities/password/{id}": {
+        "put": {
+          "summary": "Altera a password de uma entidade",
+          "tags": [
+            "Entities"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da entidade"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "password alterada com sucesso"
+            },
+            "400": {
+              "description": "password antiga incorreta"
+            },
+            "404": {
+              "description": "Entidade não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/statistics/numbers": {
+        "get": {
+          "summary": "Get the count of entities, donors, donations, and items",
+          "tags": [
+            "Statistics"
+          ],
+          "responses": {
+            "200": {
+              "description": "Counts of entities, donors, donations, and items",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "entitiesCount": {
+                        "type": "integer"
+                      },
+                      "donorsCount": {
+                        "type": "integer"
+                      },
+                      "donationsCount": {
+                        "type": "integer"
+                      },
+                      "itemsCount": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/statistics/donors/countries": {
+        "get": {
+          "summary": "Get the list of countries of donors",
+          "tags": [
+            "Statistics"
+          ],
+          "responses": {
+            "200": {
+              "description": "List of donor countries",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/statistics/entities/countries": {
+        "get": {
+          "summary": "Get the list of countries of entities",
+          "tags": [
+            "Statistics"
+          ],
+          "responses": {
+            "200": {
+              "description": "List of entity countries",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/statistics/donations/year": {
+        "get": {
+          "summary": "Get the list of years with donations",
+          "tags": [
+            "Statistics"
+          ],
+          "responses": {
+            "200": {
+              "description": "List of years with donations",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/statistics/donations/month": {
+        "get": {
+          "summary": "Get the list of months with donations",
+          "tags": [
+            "Statistics"
+          ],
+          "responses": {
+            "200": {
+              "description": "List of months with donations",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/coupons/generate": {
+        "post": {
+          "summary": "Gerar um novo cupom",
+          "tags": [
+            "Coupons"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": "Token de autenticação JWT"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "O ID do usuário para o qual o cupom está sendo gerado"
+                  },
+                  "storeId": {
+                    "type": "string",
+                    "description": "O ID da loja para a qual o cupom está sendo gerado"
+                  },
+                  "pointsGiven": {
+                    "type": "number",
+                    "description": "Os pontos dados pelo usuário para gerar o cupom"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Cupom gerado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "description": "O código do cupom gerado"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "description": "O ID do usuário para o qual o cupom foi gerado"
+                      },
+                      "storeId": {
+                        "type": "string",
+                        "description": "O ID da loja para a qual o cupom foi gerado"
+                      },
+                      "discount": {
+                        "type": "number",
+                        "description": "O desconto aplicado pelo cupom (em porcentagem)"
+                      },
+                      "expiryDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "A data de validade do cupom"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Não autorizado, token inválido ou expirado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/stores/list": {
+        "get": {
+          "summary": "Lista todas as lojas",
+          "tags": [
+            "Stores"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de lojas",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Store"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/stores": {
+        "post": {
+          "summary": "Regista uma nova loja",
+          "tags": [
+            "Stores"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/StoreInput"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Loja registada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Store"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/stores/{id}": {
+        "get": {
+          "summary": "Obtém os dados de uma loja específica",
+          "tags": [
+            "Stores"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da loja"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados da loja",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Store"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Loja não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualiza os dados de uma loja",
+          "tags": [
+            "Stores"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da loja"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/StoreInput"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Loja atualizada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Store"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Loja não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove uma loja",
+          "tags": [
+            "Stores"
+          ],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID da loja"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Loja removida com sucesso"
+            },
+            "404": {
+              "description": "Loja não encontrada"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "admin@example.com"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "913423213"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main St"
+          },
+          "country": {
+            "type": "string",
+            "example": "USA"
+          },
+          "profileImage": {
+            "type": "string"
+          },
+          "dateOfBirthday": {
+            "type": "string",
+            "format": "date",
+            "example": "1990-01-01"
+          }
+        }
+      },
+      "DonationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "donorId": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "entityId": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "numberOfItems": {
+            "type": "integer",
+            "example": 5
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pendente",
+              "Aceite",
+              "Rejeitado"
+            ],
+            "default": "Pendente",
+            "example": "Pendente"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-06-06T12:00:00Z"
+          }
+        }
+      },
+      "Donation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "donorId": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "entityId": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "donationRequestId": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "numberOfItems": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 10
+          },
+          "pointsGiven": {
+            "type": "integer",
+            "default": 0,
+            "example": 20
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Recebido",
+              "Entregue",
+              "Perdido"
+            ],
+            "default": "Entregue",
+            "example": "Entregue"
+          },
+          "recieved_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-06-06T12:00:00Z"
+          }
+        }
+      },
+      "Entity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "My Entity"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "required": true,
+                "example": "entity@example.com"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "required": false,
+                "example": "123456789"
+              },
+              "address": {
+                "type": "string",
+                "required": false,
+                "example": "456 Second St"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "example": "Entity description"
+          },
+          "password": {
+            "type": "string",
+            "required": true,
+            "example": "password123"
+          },
+          "country": {
+            "type": "string",
+            "required": true,
+            "example": "USA"
+          },
+          "aditionalInfo": {
+            "type": "string",
+            "required": false,
+            "example": "Additional information about the entity"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true,
+            "example": true
+          },
+          "isAccepted": {
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "default": "now",
+            "example": "2024-06-06T12:00:00Z"
+          }
+        }
+      },
+      "Coupon": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "O código do cupom",
+            "example": "ABC123"
+          },
+          "userId": {
+            "type": "string",
+            "description": "O ID do usuário associado ao cupom",
+            "example": "6097d2b093dadc001f71e398"
+          },
+          "storeId": {
+            "type": "string",
+            "description": "O ID da loja associada ao cupom",
+            "example": "6097d2b093dadc001f71e399"
+          },
+          "discount": {
+            "type": "number",
+            "description": "O desconto aplicado pelo cupom (em porcentagem)",
+            "example": 10
+          },
+          "isUsed": {
+            "type": "boolean",
+            "description": "Indica se o cupom foi usado",
+            "example": false
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "A data de validade do cupom",
+            "example": "2024-12-31T23:59:59Z"
+          }
+        }
+      },
+      "Store": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "O nome da loja",
+            "example": "Minha Loja"
+          },
+          "address": {
+            "type": "string",
+            "description": "O endereço da loja",
+            "example": "Rua Principal, 123"
+          }
+        }
+      }
+    }
+  }

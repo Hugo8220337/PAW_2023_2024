@@ -1,0 +1,119 @@
+<!--
+                Área de Pesquisa
+            -->
+<div class="d-flex justify-content-between">
+  <form action="/entities/filter" method="get">
+    <label>Aceite: </label> &nbsp;&nbsp;&nbsp;&nbsp;
+    <select name="name">
+      <option value="">-</option>
+      <option value="true">Aceite</option>
+      <option value="false">Não Aceite</option>
+    </select>
+    <input type="hidden" name="fieldName" value="isAccepted" />
+    <input type="submit" value="Pesquisar" />
+  </form>
+
+  <form action="/entities/filter" method="get">
+    <label>Atividade:</label>
+    <select name="name">
+      <option value="">-</option>
+      <option value="true">Ativo</option>
+      <option value="false">Inativo</option>
+    </select>
+    <input type="hidden" name="fieldName" value="isActive" />
+    <input type="submit" value="Pesquisar" />
+  </form>
+
+  <a
+    class="btn btn-success"
+    data-toggle="modal"
+    data-target="#inserir"
+    style="background-color: #4caf50; border: none"
+    href="/entities/create"
+    >Adicionar</a
+  >
+</div>
+
+<!--
+                  Fim da Área de Pesquisa
+              -->
+
+<!--
+                Tabela da base de dados
+            -->
+<div class="table-responsive-sm">
+  <% if(entities.length > 0) { %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telemóvel</th>
+        <th scope="col">Morada</th>
+        <th scope="col">País</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% for(var i=0; i< entities.length;i++) { %>
+      <tr>
+        <th scope="row"></th>
+        <td><%= entities[i].name %></td>
+        <td><%= entities[i].contact.email %></td>
+        <td><%= entities[i].contact.phoneNumber %></td>
+        <td><%= entities[i].contact.address %></td>
+        <td><%= entities[i].country %></td>
+        <td>
+          <span
+            class="inline-block px-2 py-1 rounded-pill text-xs font-semibold text-white <%= entities[i].isActive ? 'bg-green' : 'bg-red' %>"
+          >
+            <%= entities[i].isActive ? 'Ativo' : 'Inativo' %>
+          </span>
+        </td>
+        <td>
+          <span
+            class="inline-block px-2 py-1 rounded-pill text-xs font-semibold text-white <%= entities[i].isAccepted ? 'bg-green' : 'bg-red' %>"
+          >
+            <%= entities[i].isAccepted ? 'Aceite' : 'Não Aceite' %>
+          </span>
+        </td>
+        <td>
+          <form action="/entities/remove/<%= entities[i]._id %>" method="get">
+            <button
+              type="submit"
+              onclick="return confirmar();"
+              style="border: none; background-color: transparent"
+            >
+              <i class="material-icons green">delete</i>
+            </button>
+          </form>
+        </td>
+        <td>
+          <form action="/entities/edit/<%= entities[i]._id %>" method="get">
+            <button
+              type="submit"
+              style="border: none; background-color: transparent"
+            >
+              <i class="material-icons green">mode_edit</i>
+            </button>
+          </form>
+        </td>
+      </tr>
+
+      <% } %>
+    </tbody>
+
+    <% } else { %>
+    <div>Não foi encontrado nenhum administrador.</div>
+    <% } %>
+
+  </table>
+</div>
+<!--
+                Fim da Tabela da base de dados
+            -->

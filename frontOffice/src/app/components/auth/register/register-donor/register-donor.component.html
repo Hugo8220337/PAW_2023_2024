@@ -1,0 +1,101 @@
+<div class="limiter">
+    <div class="container-login100 ">
+        <div class="row">
+            <div class="wrap-register100">
+                <form  class="login100-form validate-form" enctype="multipart/form-data"
+                    style="padding: 178px 55px 0 55px;" (ngSubmit)="register()">
+
+                    <span class="login100-form-title">
+                        Register Donor
+                    </span>
+
+                    <div class="row">
+                        <div class="col-md-6 p-lg-2">
+                            <!-- Nome -->
+                            <div class="wrap-input100 validate-input mt-3" data-validate="Nome">
+                                <input class="input100" type="text" id="name" name="name"
+                                    [(ngModel)]="this.registerDonor.name" placeholder="Nome" required>
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="wrap-input100 validate-input mt-3" data-validate="Email">
+                                <input class="input100" type="email" id="email" name="email"
+                                    [(ngModel)]="this.registerDonor.email" placeholder="Email" required>
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="wrap-input100 validate-input mt-3" data-validate="Password">
+                                <input class="input100" type="password" id="password" name="password"
+                                    [(ngModel)]="this.registerDonor.password" placeholder="Password" required>
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <!-- Telefone -->
+                            <div class="wrap-input100 validate-input mt-3" data-validate="Telefone">
+                                <input class="input100" type="tel" id="phoneNumber" name="phoneNumber"
+                                    [(ngModel)]="this.registerDonor.phoneNumber" placeholder="Telefone"
+                                    pattern="^(91|93|96)\d{7}$"
+                                    title="O número de telefone deve começar com 91, 93 ou 96 e ter 9 dígitos."
+                                    required>
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 p-lg-2">
+                            <!-- Morada -->
+                            <div class="wrap-input100 validate-input mt-3" data-validate="Morada">
+                                <input class="input100" type="text" id="address" name="address"
+                                    [(ngModel)]="this.registerDonor.address" placeholder="Morada" >
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <!-- País -->
+                            <div class="wrap-input100 mt-3 mb-3">
+                                <select name="country" [(ngModel)]="registerDonor.country" class="input100" required>
+                                    <option value="" disabled selected>Selecione um país</option>
+                                    <!-- Adicionei esta parte -->
+                                    @for(country of this.getCountryKeys(); track country) {
+                                    <option value="{{country}}"> {{this.countries[country]}} </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <!-- Datade Nascimento -->
+                            <div class="wrap-input100 validate-input mt-3" data-validate="Data de Nascimento">
+                                <input class="input100" type="date" id="dateOfBirthday" name="dateOfBirthday" [(ngModel)]="registerDonor.dateOfBirthday"
+                                [max]="currentDate" placeholder="Data de Nascimento" required>
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <!-- Imagem de perfil -->
+                            <div class="wrap-input100 validate-input mt-3">
+                                <input type="file" id="profileImage" name="profileImage" (change)="onSelectFile($event)"  [(ngModel)]="selectedFile" class="input100">
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="container-login100-form-btn mt-lg-3">
+                        <button class="login100-form-btn">
+                            Register
+                        </button>
+                    </div>
+
+                    <div class="text-center pt-4 pb-md-4">
+                        @if (error) {
+                            <span class="txt3" style="color: red;">
+                                    {{ error }}
+                            </span>
+                        }
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

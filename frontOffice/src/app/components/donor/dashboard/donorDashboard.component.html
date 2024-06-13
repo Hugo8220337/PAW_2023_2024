@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-end">
+  <button type="button" (click)="logout()" class="btn btn-primary">
+    <span class="material-icons">
+      logout
+      </span>
+  </button>
+</div>
+
+<div class="container py-5">
+
+  <div class="row">
+
+    <!-- Área da esqueda -->
+    <div class="col-lg-4">
+
+      <!-- Utilizador -->
+      <app-user-profile [user] = "this.user"></app-user-profile>
+
+
+      <div class="card mb-4 mb-lg-0">
+        <div #paypal></div>
+      </div>
+
+    </div>
+
+    <!-- Área da direita -->
+    <div class="col-lg-8">
+      <!-- informações de Contacto -->
+      <app-user-information (userEdited)="this.getUserData()" [user]="this.user"></app-user-information>
+    
+    </div>
+  </div>
+      
+  <!-- Tabela de doações -->
+  <app-donations-table [donations] = "this.donations" [donationRequests]="this.donationRequests" [userType]="'donor'"  [error]="this.error"></app-donations-table>
+  
+</div>

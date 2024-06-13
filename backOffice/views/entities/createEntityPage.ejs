@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <%- include('../partials/simpleNav'); %>
+
+        <div class="container">
+            <h1 class="my-5">Adicionar Entidade</h1>
+            <form id="entityForm" action="entities/list" method="POST" class="mb-5" onsubmit="submitForm(event)">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Telefone:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
+                        pattern="^(91|93|96)\d{7}$"
+                        title="O número de telefone deve começar com 91, 93 ou 96 e ter 9 dígitos." required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Morada:</label>
+                    <input type="text" id="address" name="address" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="country" class="form-label">País:</label>
+                    <select id="country" class="form-select" required>
+                        <option value="" disabled selected>Selecione um país</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Descrição:</label>
+                    <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="aditionalInfo" class="form-label">Informação adicional:</label>
+                    <textarea id="aditionalInfo" name="aditionalInfo" class="form-control" rows="4"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger" onclick="location.href='/entities'">Voltar</button>
+                    <button type="submit" class="btn btn-success">Adicionar Entidade</button>
+                </div>
+            </form>
+        </div>
+
+
+        <script>
+            // Função para lidar com a submissão do formulário
+            function submitForm(event) {
+                event.preventDefault(); // Evitar o comportamento padrão de enviar o formulário
+                var token = `<%= token %>`
+
+                // Dados do formulário
+                const formData = {
+                    name: document.getElementById('name').value,
+                    contact: {
+                        email: document.getElementById('email').value,
+                        phoneNumber: document.getElementById('phoneNumber').value,
+                        address: document.getElementById('address').value
+
+                    },
+                    password: document.getElementById('password').value,
+                    country: document.getElementById('country').value,
+                    description: document.getElementById('description').value,
+                    aditionalInfo: document.getElementById('aditionalInfo').value
+                };
+
+                // Faça a requisição para o endpoint desejado
+                fetch('http://localhost:5000/api/entities/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-access-token': token
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw Error('Ocorreu um erro ao adicionar a entidade.' + response);
+                        }
+
+                        // Redirect to the administrators list page
+                        // window.location.href = '/administrators?add=true';
+                        // Redirect to the administrators list page
+                        window.location.replace('/entities?add=' + true);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Ocorreu um erro ao adicionar a entidade.' + error);
+                    });
+            }
+        </script>
+
+        <script src="/js/forms/countrySelectBox.js"></script>
+</body>
+
+</html>

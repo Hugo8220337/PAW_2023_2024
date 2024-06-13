@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+
+          <h1 class="card-title mb-0">Lista de Doações</h1>
+
+          <!-- Botões de doações e pedidos -->
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn" [class.btn-primary]="viewMode === 'donations'" (click)="switchView('donations')">
+              <input type="radio" name="options" value="Doacoes" [checked]="viewMode === 'donations'"> Doações
+            </label>
+            <label class="btn" [class.btn-primary]="viewMode === 'requests'" (click)="switchView('requests')">
+              <input type="radio" name="options" value="Pedidos" [checked]="viewMode === 'requests'"> Pedidos
+            </label>
+          </div>
+
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            @if (this.viewMode === "donations") {
+              <thead>
+                <tr>
+                  <th *ngIf="userType === 'donor'">Entidade</th>
+                  <th *ngIf="userType === 'entity'">Donor</th>
+                  <th>Nº Items</th>
+                  <th>Pontos Recebidos</th>
+                  <th>Recebido em</th>
+                  <th>Status</th>
+                  <th> </th> <!-- Ícone de olho para os detalhes -->
+                </tr>
+              </thead>
+                    
+              <tbody>
+                @for(donation of this.donations; track donation._id) {
+                  <tr>
+                    <td *ngIf="userType === 'donor'">{{ donation.entity.name }}</td>
+                    <td *ngIf="userType === 'entity'">{{ donation.donor.name }}</td>
+                    <td>{{ donation.numberOfItems }}</td>
+                    <td>{{ donation.pointsGiven }}</td>
+                    <td>{{ DateFormatService.formatDate(donation.recieved_at) }}</td>
+                    <td>{{ donation.status }}</td>
+                    <td><a (click)="openDonationModal(donation, undefined)"> <i class="material-icons">visibility</i> </a></td>
+                  </tr>
+                }  
+              </tbody>
+            
+            } @else if (this.viewMode === "requests") {
+              <thead>
+                <tr>
+                  <th *ngIf="userType === 'donor'">Entidade</th>
+                  <th *ngIf="userType === 'entity'">Donor</th>
+                  <th>Nº Items</th>
+                  <th>Pontos Expectáveis</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th> </th> <!-- Ícone de olho para os detalhes -->
+                </tr>
+              </thead>
+                    
+              <tbody>
+                @for(donationRequest of this.donationRequests; track donationRequest._id) {
+                  <tr>
+                    <td *ngIf="userType === 'donor'">{{ donationRequest.entity.name }}</td>
+                    <td *ngIf="userType === 'entity'">{{ donationRequest.donor.name }}</td>
+                    <td>{{ donationRequest.numberOfItems }}</td>
+                    <td>{{ donationRequest.expectedPoints }}</td>
+                    <td>{{ DateFormatService.formatDate(donationRequest.created_at) }}</td>
+                    <td>{{ donationRequest.status }}</td>
+                    <td><a (click)="openDonationModal(undefined, donationRequest)"> <i class="material-icons">visibility</i> </a></td>
+                  </tr>
+                }
+              </tbody>
+            }
+          </table>
+
+        </div>
+        
+        <p *ngIf="error" class="text-danger text-center">{{ error }}</p>
+
+
+      </div>
+    </div>
+  </div>
+</div>

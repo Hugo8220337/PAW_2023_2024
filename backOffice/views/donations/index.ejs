@@ -1,0 +1,81 @@
+<!--Área de Pesquisa e adição-->
+<div class="d-flex justify-content-end">
+
+  <a href="/donations/invoiceCSV">
+    <!-- <i class="material-icons" style="color: #4CAF50;">e6cf</i> -->
+    <img src="/images/csv.png" alt="Ícone de CSV" width="35" height="37" style="margin-right: 5px;">
+    <!-- <span class="material-symbols-outlined">
+      csv
+    </span> -->
+  </a>
+
+  <a href="/donations/invoice">
+    <!-- <i class="material-icons" style="color: #4CAF50;">picture_as_pdf</i> -->
+     <img src="/images/pdf.png" alt="Ícone de PDF" width="30" height="35" style="margin-right: 5px;">
+  </a>
+
+  <a class="btn btn-success" data-toggle="modal" data-target="#inserir" style="background-color: #4caf50; border: none"
+    href="/donations/create">Adicionar</a>
+</div>
+
+<!--Fim da Área de Pesquisa e adição-->
+
+<!--Tabela da base de dados-->
+<div class="table-responsive-sm">
+  <% if(donations.length> 0) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Entidade</th>
+          <th scope="col">Doador</th>
+          <th scope="col">Número de items</th>
+          <th scope="col">Status</th>
+          <!-- <th scope="col">Número de items</th> -->
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for(var i=0; i< donations.length;i++) { %>
+          <tr>
+            <th scope="row"></th>
+            <td>
+              <%= donations[i].entity.name %>
+            </td>
+            <td>
+              <%= donations[i].donor.name %>
+            </td>
+            <td>
+              <%= donations[i].numberOfItems %>
+            </td>
+            <td>
+              <%= donations[i].status %>
+            </td>
+            <td>
+              <form action="/donations/remove/<%= donations[i]._id %>" method="get">
+                <button type="submit" onclick="return confirmar();" style="border: none; background-color: transparent">
+                  <i class="material-icons green">delete</i>
+                </button>
+              </form>
+            </td>
+            <td>
+              <form action="/donations/edit/<%= donations[i]._id %>" method="get">
+                <button type="submit" style="border: none; background-color: transparent">
+                  <i class="material-icons green">mode_edit</i>
+                </button>
+              </form>
+            </td>
+          </tr>
+
+          <% } %>
+      </tbody>
+
+      <% } else { %>
+        <div>Não foi encontrado nenhuma doação.</div>
+        <% } %>
+
+    </table>
+</div>
+<!--Fim da Tabela da base de dados-->

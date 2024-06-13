@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="bg-light">
+    <%- include('../partials/simpleNav'); %>
+
+        <div class="container">
+            <h1 class="text-center my-5">Editar Doação</h1>
+            <form id="donationsForm" method="POST" class="mb-5" onsubmit="submitForm(event)">
+                <div class="mb-3">
+                    <!-- Dropdown para doador -->
+                    <div class="form-group">
+                        <label for="doadorDesejado">Doador Desejado:</label>
+                        <select name="doadorDesejado" id="doadorDesejado" class="form-select">
+                            <option value="0">-</option>
+                            <% for (let i=0; i < donor.length; i++) { %>
+                                <option value="<%= donor[i]._id %>" <%=(donation.donor._id===donor[i]._id) ? 'selected'
+                                    : '' %>>
+                                    <%= donor[i].name %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+
+                    <!-- Dropdown para entidade -->
+                    <div class="form-group">
+                        <label for="entidadeDesejada">Entidade Desejada:</label>
+                        <select name="entidadeDesejada" id="entidadeDesejada" class="form-select">
+                            <option value="0">-</option>
+                            <% for (let i=0; i < entity.length; i++) { %>
+                                <option value="<%= entity[i]._id %>" <%=(donation.entity._id===entity[i]._id)
+                                    ? 'selected' : '' %>>
+                                    <%= entity[i].name %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Fieldset para adicionar novos itens -->
+                <fieldset class="border p-2">
+                    <legend class="w-auto">Itens:</legend>
+
+                    <div class="form-group">
+                        <label for="newDescription">Descrição:</label>
+                        <input type="text" id="newDescription" name="newDescription" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newCondition">Condição:</label>
+                        <select name="newCondition" id="newCondition" class="form-select">
+                            <option value="0" disabled>-</option>
+                            <% conditions.forEach(function (condition) { %>
+                                <option value="<%= condition._id %>">
+                                    <%= condition.condition %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="newWeight">Peso(Kg):</label>
+                        <input type="number" id="newWeight" name="newWeight" class="form-control" min="0">
+                    </div>
+
+                    <div id="zonaDeDoacoes" class="mb-3">
+                        <button type="button" id="newItem" class="btn btn-primary" onclick="addNewItem()">Adicionar
+                            item</button>
+                    </div>
+                </fieldset>
+
+                <!-- Lista de doações adicionadas -->
+                <ul class="list-group mb-3" id="listaDoacoes">
+                    <% donation.items.forEach(function(item) { %>
+                        <li class="list-group-item">
+                            <span class="description">
+                                <%= item.description %>
+                            </span> |
+                            <span class="condition">
+                                <%= item.condition %>
+                            </span> |
+                            Peso: <span class="weight">
+                                <%= item.weight %>
+                            </span> |
+                            <span class="delete-item" onclick="deleteNewItem(this)">&#x2716;</span>
+                        </li>
+                        <% }) %>
+                </ul>
+
+                <!-- Botão para atualizar a doação -->
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger" onclick="location.href='/donations'">Voltar</button>
+                    <button type="submit" class="btn btn-success">Atualizar Doação</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Script para adicionar e remover itens -->
+        <script>
+            let donationItems = [];
+
+        // Loop sobre os itens existentes da doação e adicioná-los à variável donationItems
+        <% donation.items.forEach(function (item) { %>
+                donationItems.push({
+                    description: '<%= item.description %>',
+                    condition: '<%= item.condition %>',
+                    conditionId: '<%= item.conditionId %>',
+                    weight: '<%= item.weight %>'
+                });
+        <% }) %>
+
+                function addNewItem() {
+                    const conditionIdElement = document.getElementById("newCondition");
+                    const newDescription = document.getElementById("newDescription").value;
+                    const newConditionId = conditionIdElement.value; // id da condição
+                    const newConditionName = conditionIdElement.options[conditionIdElement.selectedIndex].text; // nome da condição
+                    const newWeight = document.getElementById("newWeight").value; // Adicionando a captura do peso
+
+                    if (newDescription !== "" && newConditionId !== "0" && newWeight !== "") {
+                        donationItems.push({
+                            description: newDescription,
+                            condition: newConditionName,
+                            conditionId: newConditionId,
+                            weight: newWeight
+                        });
+
+                        let listItem = document.createElement("li");
+                        listItem.className = "list-group-item";
+
+                        let spanDescription = document.createElement("span");
+                        let spanCondition = document.createElement("span");
+                        let spanWeight = document.createElement("span");
+                        let spanDelete = document.createElement("span");
+
+                        spanDelete.innerHTML = "&#x2716;";
+                        spanDelete.className = "delete-item";
+                        spanDelete.style.cursor = "pointer";
+                        spanDelete.style.marginLeft = "10px";
+
+                        spanDescription.className = "description";
+                        spanCondition.className = "condition";
+                        spanWeight.className = "weight";
+
+                        spanDescription.textContent = newDescription;
+                        spanCondition.textContent = newConditionName;
+                        spanWeight.textContent = "Peso: " + newWeight;
+
+                        listItem.appendChild(spanDescription);
+                        listItem.appendChild(document.createTextNode(" | "));
+                        listItem.appendChild(spanCondition);
+                        listItem.appendChild(document.createTextNode(" | "));
+                        listItem.appendChild(spanWeight);
+                        listItem.appendChild(document.createTextNode(" | "));
+                        listItem.appendChild(spanDelete);
+
+                        listaDoacoes.appendChild(listItem);
+
+                        spanDelete.onclick = function () {
+                            deleteNewItem(this);
+                        };
+                    } else {
+                        alert("Preencha todos os campos antes de adicionar um item.");
+                    }
+
+                    document.getElementById("newDescription").value = "";
+                    document.getElementById("newCondition").value = "0";
+                    document.getElementById("newWeight").value = "";
+                }
+
+            function deleteNewItem(deleteButton) {
+                const divItem = deleteButton.parentElement;
+                const descriptionElement = divItem.querySelector('.description');
+                const conditionElement = divItem.querySelector('.condition');
+                const weightElement = divItem.querySelector('.weight');
+
+                if (!descriptionElement || !conditionElement || !weightElement) {
+                    console.error("Elemento não encontrado");
+                    return;
+                }
+
+                const descriptionToRemove = descriptionElement.textContent;
+                const conditionToRemove = conditionElement.textContent;
+                const weightToRemove = weightElement.textContent.replace("Peso: ", "");
+
+                for (let i = 0; i < donationItems.length; i++) {
+                    if (
+                        donationItems[i].description.trim().toLowerCase() === descriptionToRemove.trim().toLowerCase() &&
+                        donationItems[i].condition.trim().toLowerCase() === conditionToRemove.trim().toLowerCase() &&
+                        donationItems[i].weight.trim().toLowerCase() === weightToRemove.trim().toLowerCase()
+                    ) {
+                        donationItems.splice(i, 1);
+                        break;
+                    }
+                }
+
+                divItem.remove();
+            }
+
+            document.querySelectorAll('.delete-item').forEach(function (deleteIcon) {
+                deleteIcon.addEventListener('click', function () {
+                    deleteNewItem(this);
+                });
+            });
+
+            function submitForm(event) {
+                event.preventDefault();
+                var token = `<%= token %>`;
+
+                const donorId = document.getElementById("doadorDesejado").value;
+                const entityId = document.getElementById("entidadeDesejada").value;
+
+                const formData = {
+                    donorId: donorId,
+                    entityId: entityId,
+                    items: donationItems
+                };
+
+                fetch(`http://localhost:5000/api/donations/<%=donation._id%>`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-access-token': token
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw Error('Ocorreu um erro ao atualizar a doacao.' + response);
+                        }
+                        window.location.replace('/donations?edit=' + true);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Ocorreu um erro ao atualizar a doacao.' + error);
+                    });
+            }
+        </script>
+</body>
+
+</html>

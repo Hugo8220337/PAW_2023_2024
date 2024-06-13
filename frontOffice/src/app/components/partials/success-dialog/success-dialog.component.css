@@ -1,0 +1,48 @@
+.success-dialog-content {
+    max-width: 500px;
+    /* Defina o tamanho máximo */
+}
+
+.success-header,
+.success-message,
+.success-footer {
+    padding: 16px;
+    /* Adicione preenchimento */
+}
+
+.success-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.success-title {
+    margin: 0;
+    color: green;
+}
+
+.close-button {
+    margin-left: auto;
+}
+
+.check-emoji {
+    color: #4caf50;
+    /* Cor verde */
+    font-size: 24px;
+    /* Tamanho do emoji */
+}
+
+.success-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    margin-right: 10px; /* Espaço entre o emoji e o texto */
+}
+
+.check-emoji,i  {
+    color: #4caf50; /* Cor verde */
+    font-size: 80px; /* Tamanho do emoji */
+}

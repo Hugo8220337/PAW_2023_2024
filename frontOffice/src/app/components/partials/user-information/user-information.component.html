@@ -1,0 +1,202 @@
+<div class="card mb-4">
+    @if(this.user._id !== undefined) {
+        <div class="card-body">
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Nome</p>
+            </div>
+            <div class="col-sm-9">
+                @if(this.editMode) { <input type="text" name="name" [(ngModel)]="editableUser.name"> }
+                @if(!this.editMode) { <p class="text-muted mb-0">{{user.name}}</p> }
+            </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+                @if(this.editMode) { <input type="email" name="email" [(ngModel)]="editableUser.email"> }
+                @if(!this.editMode) { <p class="text-muted mb-0">{{this.user.email}}</p> }
+            </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Número Telemóvel</p>
+                </div>
+                <div class="col-sm-9">
+                    @if(this.editMode) { <input type="tel" name="phoneNumber" [(ngModel)]="editableUser.phoneNumber"> }
+                    @if(!this.editMode) { <p class="text-muted mb-0">{{this.user.phoneNumber}}</p> }
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">País</p>
+                </div>
+                <div class="col-sm-9">
+                    @if(this.editMode) { 
+                    <select name="country" [(ngModel)]="editableUser.country">
+                        
+                    @for(country of getCountryKeys(); track country) {
+                        <option value="{{countries[country]}}" [selected]="country === user.country ? 'selected' : null">{{country}}</option>
+                    }
+
+                    </select> 
+                }
+                    @if(!this.editMode) { <p class="text-muted mb-0">{{this.countriesService.getCountryInPortuguese(this.user.country)}}</p> }
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Data de Nascimento</p>
+                </div>
+                <div class="col-sm-9">
+                    @if(this.editMode) { <input type="date" name="dateOfBirthday" [max]="currentDate" [(ngModel)]="editableUser.dateOfBirthday"> }
+                    @if(!this.editMode) { <p class="text-muted mb-0">{{DateFormatService.formatDate(this.user.dateOfBirthday)}}</p> }
+                </div>
+            </div>
+
+
+            @if (editMode) {
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Imagem de perfil</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="file" name="profileImage" [(ngModel)]="selectedFile" (change)="onSelectFile($event)">
+                        
+                        <button type="button" (click)="deleteProfileImage()" class="btn btn-outline-danger btn-sm ml-lg-5">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </button>
+                    </div>
+
+
+                </div>
+            }
+            
+        </div>
+        
+    } @else if(this.entity._id !== undefined) {
+        <div class="card-body">
+
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Nome</p>
+            </div>
+            <div class="col-sm-9">
+                <input *ngIf="this.editMode" type="text" name="name" [(ngModel)]="editableEntity.name">
+                <p *ngIf="!this.editMode" class="text-muted mb-0">{{this.entity.name}}</p>
+            </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+                <input *ngIf="this.editMode" type="email" name="email" [(ngModel)]="editableEntity.contact.email">
+                <p *ngIf="!this.editMode" class="text-muted mb-0">{{this.entity.contact.email}}</p>
+            </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Número Telemóvel</p>
+            </div>
+            <div class="col-sm-9">
+                <input *ngIf="this.editMode" type="tel" name="phoneNumber" [(ngModel)]="editableEntity.contact.phoneNumber">
+                <p *ngIf="!this.editMode" class="text-muted mb-0">{{this.entity.contact.phoneNumber}}</p>
+            </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Morada</p>
+            </div>
+            <div class="col-sm-9">
+                <input *ngIf="this.editMode" type="tel" name="address" [(ngModel)]="editableEntity.contact.address">
+                <p *ngIf="!this.editMode" class="text-muted mb-0">{{this.entity.contact.address}}</p>
+            </div>
+            </div>
+
+
+            <hr>
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">País</p>
+            </div>
+            <div class="col-sm-9">
+                <select *ngIf="this.editMode" name="country" [(ngModel)]="editableEntity.country">
+
+                @for(country of getCountryKeys(); track country) {
+                <option value="{{countries[country]}}" [selected]="country === entity.country ? 'selected' : null">
+                    {{country}}</option>
+                }
+
+                </select>
+
+                <p *ngIf="!this.editMode" class="text-muted mb-0">{{this.countriesService.getCountryInPortuguese(this.entity.country)}}</p>
+            </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+            <div class="col-sm-3">
+                <p class="mb-0">Atividade </p>
+            </div>
+            <div class="col-sm-9">
+                @if(this.editMode) {
+                ativo <input type="radio" name="atividade" [(ngModel)]="editableEntity.isActive" [value]="true">
+                inativo <input type="radio" name="atividade" [(ngModel)]="editableEntity.isActive" [value]="false">
+                }
+                <p *ngIf="!this.editMode" class="text-muted mb-0">{{ entity.isActive ? 'Ativo' : 'Inativo' }}</p>
+                
+            </div>
+            </div>
+        </div>
+
+    }
+    <hr>
+
+    <div class="d-flex justify-content-between">
+        <div class="p-2">
+            <p style="color: red;">{{this.error}}</p>
+        </div>
+
+        <div class="p-2">
+            <!-- <a class="mb-0"><i class="material-icons">mode_edit</i></a> -->
+            <button *ngIf="!this.editMode" (click)="toggleEdit()" class="btn btn-outline-primary mt-0 mb-0">Editar</button>
+            <button *ngIf="this.editMode" (click)="toggleEdit()" class="btn btn-danger">Cancelar</button>
+            @if(this.editMode) {
+                <button *ngIf="this.user._id !== undefined" (click)="submitNewUserInfo()" class="btn btn-primary">Submeter</button>
+                <button *ngIf="this.entity._id !== undefined" (click)="submitNewEntityInfo()" class="btn btn-primary">Submeter</button>
+            }
+        </div>
+    </div>
+
+</div>

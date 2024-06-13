@@ -1,0 +1,84 @@
+
+<mat-dialog-content>
+    <header>
+        <div class="d-flex justify-content-between">
+            <h1 *ngIf="data.donation">Doação</h1>
+            <h1 *ngIf="data.donationRequest">Pedido de doação</h1>
+
+            <button mat-icon-button matDialogClose>
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </header>
+
+    <!-- Dados -->
+    @if(data.donation) {
+        <!-- Select -->
+        <mat-radio-group *ngIf="data.userType === 'entity'" [(ngModel)]="donationStatus" [disabled]="this.data.donation.status === 'Recebido'">
+            <mat-radio-button [value]="'Recebido'">Recebido</mat-radio-button>
+            <mat-radio-button [value]="'Entregue'">Entregue</mat-radio-button>
+            <mat-radio-button [value]="'Perdido'">Perdido</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="form-group pb-3">
+            @if (data.userType === "donor") {
+                <label>Entidade:</label>
+                <input type="text" class="form-control" value="{{data.donation.entity.name}}" disabled>
+            } @else if (data.userType === "entity") {
+                <label>Doador:</label>
+                <input type="text" class="form-control" value="{{data.donation.donor.name}}" disabled>
+            }
+        </div>
+    
+        <h3>Items:</h3>
+        <ul>
+            @for (item of data.donation.items; track item._id) {
+                <li>
+                    <span>
+                        Descrição:{{item.description}} | 
+                        Condição: {{item.condition}} | 
+                        Peso: {{item.weight}} Kg
+                    </span>
+                </li>
+            }
+        </ul>
+    } @else if (data.donationRequest) {
+        <!-- Select -->
+        <mat-radio-group *ngIf="data.userType === 'entity'" [(ngModel)]="donationRequestStatus" [disabled]="this.data.donationRequest.status !== 'Pendente'">
+            <mat-radio-button [value]="'Aceite'">Aceitar</mat-radio-button>
+            <mat-radio-button [value]="'Rejeitado'">Rejeitar</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="form-group pb-3">
+            @if (data.userType === "donor") {
+                <label>Entidade:</label>
+                <input type="text" class="form-control" value="{{data.donationRequest.entity.name}}" disabled>
+            } @else if (data.userType === "entity") {
+                <label>Doador:</label>
+                <input type="text" class="form-control" value="{{data.donationRequest.donor.name}}" disabled>
+            }
+        </div>
+    
+        <h3>Items:</h3>
+        <ul>
+            @for (item of data.donationRequest.items; track item._id) {
+                <li>
+                    <span>
+                        Descrição:{{item.description}} | 
+                        Condição: {{item.condition}} | 
+                        Peso: {{item.weight}} Kg
+                    </span>
+                </li>
+            }
+        </ul>
+    }
+</mat-dialog-content>
+
+<mat-dialog-actions *ngIf="data.userType === 'entity'" align="end">
+    <button mat-raised-button color="warn" matDialogClose>Cancel</button>
+    @if(data.donation) {
+        <button *ngIf="this.data.donation.status !== 'Recebido'" mat-raised-button (click)="saveStatus(); statusSaved.emit()" color="primary">Save</button>
+    } @else if (data.donationRequest) {
+        <button *ngIf="this.data.donationRequest.status === 'Pendente'" mat-raised-button (click)="saveStatus(); statusSaved.emit()" color="primary">Save</button>
+    }
+</mat-dialog-actions>

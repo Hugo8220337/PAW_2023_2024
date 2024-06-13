@@ -1,0 +1,81 @@
+<!--
+                Área de Pesquisa
+            -->
+<div class="d-flex justify-content-end">
+  <!-- Não tem pesquisas -->
+
+  <a
+    class="btn btn-success"
+    data-toggle="modal"
+    data-target="#inserir"
+    style="background-color: #4caf50; border: none"
+    href="/employees/create"
+    >Adicionar</a
+  >
+</div>
+
+<!--
+                  Fim da Área de Pesquisa
+              -->
+
+<!--
+                Tabela da base de dados
+            -->
+<div class="table-responsive-sm">
+  <% if(employees.length> 0) { %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telemóvel</th>
+        <th scope="col">Morada</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% for(var i=0; i< employees.length;i++) { %>
+      <tr>
+        <th scope="row"></th>
+        <td><%= employees[i].name %></td>
+        <td><%= employees[i].email %></td>
+        <td><%= employees[i].phoneNumber %></td>
+        <td><%= employees[i].address %></td>
+        <td>
+          <form action="/employees/remove/<%= employees[i]._id %>" method="get">
+            <button
+              type="submit"
+              onclick="return confirmar();"
+              style="border: none; background-color: transparent"
+            >
+              <i class="material-icons green">delete</i>
+            </button>
+          </form>
+        </td>
+        <td>
+          <form action="/employees/edit/<%= employees[i]._id %>" method="get">
+            <button
+              type="submit"
+              style="border: none; background-color: transparent"
+            >
+              <i class="material-icons green">mode_edit</i>
+            </button>
+          </form>
+        </td>
+      </tr>
+
+      <% } %>
+    </tbody>
+
+    <% } else { %>
+    <div>Não foi encontrado nenhum funcionário.</div>
+    <% } %>
+
+  </table>
+</div>
+<!--
+                Fim da Tabela da base de dados
+            -->

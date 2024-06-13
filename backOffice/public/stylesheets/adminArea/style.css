@@ -10,6 +10,10 @@
   background-color: var(--green);
 }
 
+.bg-red {
+  background-color: red;
+}
+
 .current {
   font-weight: bold;
   color: white;

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="bg-light">
+    <%- include('../partials/simpleNav'); %>
+
+    <div class="container">
+        <h1 class="text-center my-5">Adicionar Doação</h1>
+        <form id="donationsForm" action="donations/list" method="POST" class="mb-5" onsubmit="submitForm(event)">
+            <div class="mb-3">
+                <!-- Se houver doadores disponíveis, exiba-os -->
+                <% if (donor && donor.length> 0) { %>
+                    <div class="form-group">
+                        <label for="doadorDesejado">Doador Desejado:</label>
+                        <select name="doadorDesejado" id="doadorDesejado" class="form-select" required>
+                            <option value="0" disabled selected>-</option>
+                            <!-- Loop para exibir os nomes dos doadores -->
+                            <% donor.forEach(function(donorItem) { %>
+                                <option value="<%= donorItem._id %>">
+                                    <%= donorItem.name %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                    <% } else { %>
+                        <p>Nenhum doador disponível.</p>
+                        <% } %>
+
+                            <!-- Se houver entidades disponíveis, exiba-as -->
+                            <% if (entity && entity.length> 0) { %>
+                                <div class="form-group pb-3">
+                                    <label for="entidadeDesejada">Entidade Desejada:</label>
+                                    <select name="entidadeDesejada" id="entidadeDesejada" class="form-select" required>
+                                        <option value="0" disabled selected>-</option>
+                                        <!-- Loop para exibir os nomes das entidades -->
+                                        <% entity.forEach(function(entityItem) { %>
+                                            <option value="<%= entityItem._id %>">
+                                                <%= entityItem.name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                                <% } else { %>
+                                    <p>Nenhuma entidade disponível.</p>
+                                    <% } %>
+
+                                        <fieldset class="border p-2">
+                                            <legend class="w-auto">Itens:</legend>
+
+                                            <div class="form-group">
+                                                <label for="description">Descrição:</label>
+                                                <input type="text" id="description" name="description"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="condition">Condição:</label>
+                                                <select name="conditionId" id="conditionId" class="form-select">
+                                                    <option value="0" disabled>-</option>
+                                                    <% conditions.forEach(function (condition) { %>
+                                                        <option value="<%= condition._id %>">
+                                                            <%= condition.condition %>
+                                                        </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group pb-3">
+                                                <label for="weight">Peso(Kg):</label>
+                                                <input type="number" id="weight" name="weight" class="form-control"min="0">
+                                            </div>
+
+                                            <div id="zonaDeDoacoes" class="mb-3">
+                                                <button type="button" id="newItem" class="btn btn-primary"
+                                                    onclick="addNewItem()">Adicionar item</button>
+                                            </div>
+                                        </fieldset>
+            </div>
+
+            <ul class="list-group mb-3" id="listaDoacoes"></ul>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger" onclick="location.href='/donations'">Voltar</button>
+                <button type="submit" class="btn btn-success bg-green border-0">Submeter Doação</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let donationItems = [];
+
+        function addNewItem() {
+            const conditionIdElement = document.getElementById("conditionId");
+
+            const newDescription = document.getElementById("description").value;
+            const newCondition = conditionIdElement.value; // id da condição
+            const newConditionName = conditionIdElement.options[conditionIdElement.selectedIndex].text; // nome da condição
+            const newWeight = document.getElementById("weight").value; // Adicionando a captura da peso
+
+            if (newDescription !== "" && newCondition !== "0" && newWeight !== "") { // Verificando se todos os campos estão preenchidos
+
+                // Adicionar o novo item à lista temporária
+                donationItems.push({ description: newDescription, conditionId: newCondition, weight: newWeight }); // Incluindo a quantidade na lista de doações
+
+                // Criação dos elementos
+                let divItem = document.createElement("div");
+                divItem.className = "list-group-item"
+                let spanDescription = document.createElement("span");
+                let spanCondition = document.createElement("span");
+                let spanWeight = document.createElement("span"); // Criando um elemento para exibir a peso
+                let spanDelete = document.createElement("span");
+
+                // Ícone de exclusão
+                spanDelete.innerHTML = "&#x2716;";
+                spanDelete.style.cursor = "pointer";
+                spanDelete.style.marginLeft = "10px";
+
+                // Definindo o conteúdo dos elementos
+                spanDescription.textContent = newDescription;
+                spanCondition.textContent = newConditionName;
+                spanWeight.textContent = "Peso: " + newWeight; // Definindo o texto para exibir a peso
+
+                // Adicionando os elementos à div
+                divItem.appendChild(spanDescription);
+                divItem.appendChild(document.createTextNode(" | ")); // Separador
+                divItem.appendChild(spanCondition);
+                divItem.appendChild(document.createTextNode(" | ")); // Separador
+                divItem.appendChild(spanWeight); // Adicionando o elemento de peso
+                divItem.appendChild(document.createTextNode(" | ")); // Separador
+                divItem.appendChild(spanDelete);
+
+                // Adicionando a div à lista de doações
+                listaDoacoes.appendChild(divItem);
+
+                // Adicionando um evento de clique para o ícone de exclusão
+                spanDelete.onclick = function () {
+                    deleteNewItem(divItem);
+                };
+            } else {
+                alert("Preencha todos os campos antes de adicionar um item."); // Exibindo um alerta se algum campo estiver vazio
+            }
+
+            document.getElementById("description").value = "";
+            document.getElementById("conditionId").value = "0";
+            document.getElementById("weight").value = ""; // Limpando o campo de peso
+
+        }
+
+
+        function deleteNewItem(divItem) {
+            const description = divItem.querySelector('span:first-child').textContent;
+            const index = donationItems.findIndex(item => item.description === description);
+            if (index !== -1) {
+                donationItems.splice(index, 1); // Remove o item do array
+            }
+            divItem.remove();
+        }
+
+
+
+    </script>
+
+    <script>
+        // Função para lidar com a submissão do formulário
+        function submitForm(event) {
+            event.preventDefault(); // Evitar o comportamento padrão de enviar o formulário
+
+            var token = `<%= token %>`
+
+            // Obter os IDs do doador e da entidade selecionados
+            const donorId = document.getElementById("doadorDesejado").value;
+            const entityId = document.getElementById("entidadeDesejada").value;
+
+            // Verificar se há itens na lista de doações
+            const listaDoacoes = document.getElementById("listaDoacoes");
+            if (listaDoacoes.children.length === 0) {
+                // Exibir uma mensagem de erro se a lista estiver vazia
+                alert("Por favor, adicione pelo menos um item de doação.");
+                return; // Interromper o envio do formulário
+            }
+
+            // Dados do formulário
+            const formData = {
+                donorId: donorId,
+                entityId: entityId,
+                items: donationItems // Usar a lista temporária de itens
+            };
+
+            // Faça a requisição para o endpoint desejado
+            fetch('http://localhost:5000/api/donations/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': token
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw Error('Ocorreu um erro ao adicionar a doacao.' + response);
+                    }
+                    window.location.replace('/donations?add=' + true);
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Ocorreu um erro ao adicionar a doacao.' + error);
+                });
+        }
+    </script>
+</body>
+
+</html>

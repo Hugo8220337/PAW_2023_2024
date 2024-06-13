@@ -1,0 +1,87 @@
+<div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="wrap-register100">
+        <form  class="login100-form validate-form" style="padding: 178px 55px 0 55px;" (ngSubmit)="register()">
+
+            <span class="login100-form-title">
+                Register Entity
+            </span>
+
+            <div class="form-row">
+                <div class="col-md-6 p-lg-2">
+                    <!-- Nome -->
+                    <div class="wrap-input100 mt-3" data-validate="Nome">
+                        <input class="input100" type="text" [(ngModel)]="registerEntity.name" name="name" placeholder="Nome" required >
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="wrap-input100 mt-3" data-validate="Email">
+                        <input class="input100" type="email" [(ngModel)]="registerEntity.contact.email"  name="email" placeholder="Email" required >
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="wrap-input100 mt-3" data-validate="Password">
+                        <input class="input100" type="password" id="password" name="password" placeholder="Password"  [(ngModel)]="registerEntity.password" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="wrap-input100 mt-3" data-validate="Telefone">
+                        <input class="input100" type="tel" id="phoneNumber" name="phoneNumber" [(ngModel)]="registerEntity.contact.phoneNumber" placeholder="Telefone" pattern="^(91|93|96)\d{7}$"
+                        title="O número de telefone deve começar com 91, 93 ou 96 e ter 9 dígitos."  required >
+                        <span class="focus-input100"></span>
+                    </div>
+                </div>
+                
+                
+                <div class="col-md-6 p-lg-2">
+                    <!-- Morada -->
+                    <div class="wrap-input100 mt-3" data-validate="Morada">
+                        <input class="input100" type="text" id="address" name="address" placeholder="Morada" [(ngModel)]="registerEntity.contact.address" required>
+                        <span class="focus-input100"></span>
+                    </div>
+        
+                    <!-- País TODO -->
+                     <div class="wrap-input100 mt-3">
+                        <select name="country" [(ngModel)]="registerEntity.country" class="input100" required >
+                            <option value="" disabled selected>Selecione um país</option> <!-- Adicionei esta parte -->
+                            @for(country of getCountryKeys(); track country) {
+                                <option value="{{country}}"> {{countries[country]}} </option>
+                            }
+                        </select>
+                    </div> 
+
+                </div>
+
+                <div class="wrap-input100 mt-3" data-validate="Descrição">
+                    <textarea class="textarea100" name="description" id="description"  cols="30" rows="60" placeholder="Descrição" [(ngModel)]="registerEntity.description" required ></textarea>
+                </div>
+
+                 <div class="wrap-input100 mt-3" data-validate="Informação adicional">
+                    <textarea class="textarea100" name="aditionalInfo" id="aditionalInfo" cols="30" rows="60" placeholder="Informação adicional" [(ngModel)]="registerEntity.aditionalInfo"></textarea>
+                </div> 
+
+                
+            </div>
+            
+
+            <div class="container-login100-form-btn mt-4">
+                <button class="login100-form-btn">
+                    Register
+                </button>
+            </div>
+
+            <div class="text-center pt-4 pb-md-4">
+                <span class="txt3" style="color: red;">
+                    @if (error) {
+                        {{ error }}
+                    }
+                </span>
+            </div>
+
+            
+        </form>
+    </div>
+
+</div>

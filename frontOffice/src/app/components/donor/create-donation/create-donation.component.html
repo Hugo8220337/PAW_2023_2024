@@ -1,0 +1,77 @@
+<div data-scroll-index='1' class="make_donation_area section_padding">
+    <div class="container mb-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section_title text-center mb-55">
+                    <h1 class="text-center my-5">Fazer Doação</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <form action="#" class="mb-5">
+                        <div class="form-group pb-3">
+                            <label for="entidadeDesejada">Entidade Desejada:</label>
+                            <select name="entidadeDesejada" [(ngModel)]="this.entityId" class="nice-select w-100 mb-2" required>
+                                <option value="" disabled selected>-</option> <!-- TODO colocar a infomração das entidades -->
+                                @for(entity of entities; track entity._id) {
+                                    <option value="{{entity._id}}">{{entity.name}}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <fieldset class="border p-2">
+                            <legend class="w-auto">Itens:</legend>
+
+                            <div class="form-group">
+                                <label for="description">Descrição:</label>
+                                <input type="text" name="description" [(ngModel)]="currentItem.description"
+                                    class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="condition">Condição:</label><br>
+                                <select name="condition" [(ngModel)]="currentItem.conditionId" (change)="getConditionSelectedOption($event)" class="nice-select w-100 mb-2">
+                                    <option value="0">-</option>
+                                    @for(condition of this.itemConditions; track condition._id) {
+                                        <option value="{{condition._id}}">{{condition.condition}}</option>
+                                    }
+                                </select><br>
+                            </div>
+
+                            <div class="form-group pb-3">
+                                <label for="weight">Peso(Kg):</label>
+                                <input type="number" name="weight" [(ngModel)]="currentItem.weight" class="form-control" min="0">
+                            </div>
+
+                            <div id="zonaDeDoacoes" class="mb-3">
+                                <button type="button" id="newItem" class="btn btn-primary"
+                                    (click)="addItem()">Adicionar item</button>
+                            </div>
+                        </fieldset>
+                </form>
+            </div>
+
+            <div class="col-lg-6">
+                @for(item of items; track item._id) {
+                    <div>
+                        <span>Descrição: {{item.description}} | </span>
+                        <span>Condição: {{item.condition}} | </span>
+                        <span>Peso: {{item.weight}} Kg </span>
+                        <button type="button" (click)="removeItem(item)" class="btn btn-close">X</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if(this.error) {
+            <p class="text-danger text-center">{{ this.error }}</p>
+        }
+
+        <div class="d-flex justify-content-between">
+            <button type="button" (click)="this.goBack()" class="btn btn-danger">Voltar</button>
+            <button type="submit" (click)="this.submitDonationRequest()" class="btn btn-primary">Fazer Doação</button>
+        </div>
+    </div>
+</div>

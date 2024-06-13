@@ -1,0 +1,80 @@
+<!--
+          Área de Pesquisa e adição
+      -->
+<div class="d-flex justify-content-end">
+  <!-- Não tem pesquisas -->
+
+  <a class="btn btn-success" data-toggle="modal" data-target="#inserir" style="background-color: #4caf50; border: none"
+    href="/donors/create">Adicionar</a>
+</div>
+<!--
+            Fim da Área de Pesquisa e adição
+        -->
+
+<!--
+          Tabela da base de dados
+      -->
+<div class="table-responsive-sm">
+  <% if(donors.length> 0) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Nome</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telemóvel</th>
+          <th scope="col">País</th>
+          <th scope="col">Pontos</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for(let i=0; i< donors.length;i++) { %>
+          <tr>
+            <th scope="row"></th>
+            <td>
+              <%= donors[i].name %>
+            </td>
+            <td>
+              <%= donors[i].email %>
+            </td>
+            <td>
+              <%= donors[i].phoneNumber %>
+            </td>
+            <td>
+              <%= donors[i].country %>
+            </td>
+            <td>
+              <%= donors[i].points %>
+            </td>
+            <td>
+              <form action="/donors/remove/<%= donors[i]._id %>" method="get">
+                <button type="submit" onclick="return confirmar();"
+                  style="border: none; background-color: transparent;">
+                  <i class="material-icons green">delete</i>
+                </button>
+              </form>
+            </td>
+            <td>
+              <form action="/donors/edit/<%= donors[i]._id %>" method="get">
+                <button type="submit" style="border: none; background-color: transparent;">
+                  <i class="material-icons green">mode_edit</i>
+                </button>
+              </form>
+            </td>
+          </tr>
+
+          <% } %>
+      </tbody>
+
+      <% } else { %>
+        <div>Não foi encontrado nenhum doador.</div>
+        <% } %>
+
+    </table>
+</div>
+<!--
+          Fim da Tabela da base de dados
+-->

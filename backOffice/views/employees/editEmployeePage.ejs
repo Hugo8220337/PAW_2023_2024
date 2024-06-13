@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <%- include('../partials/simpleNav'); %>
+
+        <div class="container">
+            <h1 class="my-5">Editar Funcionário <b>
+                    <%= employee.name %>
+                </b></h1>
+            <form id="employeeForm" action="#" method="POST" class="mb-5" onsubmit="submitForm(event)">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome:</label>
+                    <input type="text" id="name" name="name" class="form-control" required value="<%= employee.name %>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" value="<%= employee.email %>"
+                        required>
+                </div>
+
+                <!-- <div class="mb-3">
+                <label for="password" class="form-label">Senha:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div> -->
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Telefone:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control"
+                        pattern="^(91|93|96)\d{7}$"
+                        title="O número de telefone deve começar com 91, 93 ou 96 e ter 9 dígitos." required
+                        value="<%= employee.phoneNumber %>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Morada:</label>
+                    <input type="text" id="address" name="address" class="form-control" value="<%= employee.address %>"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="country" class="form-label">País:</label>
+                    <select id="country" class="form-select" required>
+                        <option value="" disabled selected>Selecione um país</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dateOfBirthday" class="form-label">Data de Nascimento:</label>
+                    <% const dateOfBirthday=new Date(employee.dateOfBirthday).toISOString().substring(0, 10); %>
+                        <input type="date" id="dateOfBirthday" name="dateOfBirthday" class="form-control"
+                            value="<%= dateOfBirthday %>" required>
+                </div>
+
+                <div class="mb-3 custom-file">
+                    <label for="profileImage" class="form-label">Imagem de perfil: </label>
+                    <!-- <label class="custom-file-label" for="validatedCustomFile">Imagem de perfil</label> -->
+                    <input type="file" id="profileImage" name="profileImage" class="custom-file-input-">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger" onclick="location.href='/employees'">Voltar</button>
+                    <button type="submit" class="btn btn-success">Alterar Funcionário</button>
+                </div>
+            </form>
+        </div>
+
+
+        <script>
+
+            // }
+            // Função para lidar com a submissão do formulário
+            function submitForm(event) {
+                event.preventDefault(); // Evitar o comportamento padrão de enviar o formulário
+                var token = `<%= token %>`
+
+                // Dados do formulário
+                const formData = new FormData();
+                formData.append('name', document.getElementById('name').value);
+                formData.append('email', document.getElementById('email').value);
+                formData.append('phoneNumber', document.getElementById('phoneNumber').value);
+                formData.append('address', document.getElementById('address').value);
+                formData.append('country', document.getElementById('country').value);
+                formData.append('dateOfBirthday', document.getElementById('dateOfBirthday').value);
+                formData.append('profileImage', document.getElementById('profileImage').files[0]);
+
+                // Faça a requisição para o endpoint desejado
+                fetch(`http://localhost:5000/api/employees/<%=employee._id%>`, {
+                    method: 'put',
+                    headers: {
+                        'x-access-token': token
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw Error('Ocorreu um erro ao alterar o funcionário.' + response);
+                        }
+
+                        // Redirect to the employees list page
+                        window.location.href = '/employees?edit=true';
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Ocorreu um erro ao alterar o funcionário.' + error);
+                    });
+            }
+        </script>
+
+        <!--Colcor o país inserido já selecionado -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const adminCountry = '<%= employee.country %>';
+                const selectElement = document.getElementById('country');
+                for (let i = 0; i < selectElement.options.length; i++) {
+                    if (selectElement.options[i].value === adminCountry) {
+                        selectElement.options[i].selected = true;
+                        break;
+                    }
+                }
+            });
+        </script>
+
+        <script src="/js/forms/dateRestrictions.js"></script>
+        <script src="/js/forms/countrySelectBox.js"></script>
+</body>
+
+</html>

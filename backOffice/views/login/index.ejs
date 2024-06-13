@@ -17,20 +17,23 @@
         <h1 class="white text-center">ÁREA ADMINISTRATIVA</h3>
             <div class="form">
 
-              <form class="login-form" name="form_login" action="/administrators" method="get"> <!-- TODO Mudar para post e colocar um endpoint diferente -->
+              <form class="login-form" name="form_login" action="/login" method="post">
                 <img src="images/login/user.png" class="pa-0" id="icon"/>
 
-                <input type="text" name="nome" id="nome" placeholder="Utilizador" required/>
+                <input type="email" name="email" id="email" placeholder="Email" required/>
 
-                <input type="password" name="password" id="password" placeholder="Password" required/>
-                <span class="show-btn"><i class="fas fa-eye"></i></span>
+                <div>
+                  <input type="password" name="password" id="password" placeholder="Password" required/>
+                  <span class="show-btn"><i class="fas fa-eye"></i></span>
+                </div>
+                
 
-                <button type="submit">login</button> <br>
+                <button type="submit">login</button>
               </form>
 
-              <a class="esquecer_senha" href="form_esquecer_senha.html">Esqueceu-se da senha?</a>
+              <!-- <a class="esquecer_senha" href="form_esquecer_senha.html">Esqueceu-se da senha?</a> -->
 
-              <p style='color: red;' name="erro" id="erro"></p>
+              <p name="erro" id="erro"></p>
 
             </div>
 
@@ -39,6 +42,20 @@
     </body>
 </html>
 
+<!-- Mostrar a mensagem de erro, se existir um parametro de erro no url -->
+<script>
+  // Obter os parametros do utl
+  const urlParams = new URLSearchParams(window.location.search);
+  const error = urlParams.get('error');
+
+  // Exibir a mensagem de erro no parágrafo com id "erro"
+  const errorParagraph = document.getElementById("erro");
+  if (error) {
+    errorParagraph.textContent = error;
+  }
+</script>
+
+<!-- Script para mostrar a password -->
 <script>
   const passField = document.getElementById("password");
   const showBtn = document.querySelector("span i");
@@ -46,7 +63,7 @@
     if(passField.type === "password"){
       passField.type = "text";
       showBtn.classList.add("hide-btn");
-    }else{
+    } else {
       passField.type = "password";
       document.getElementById("password").type="password";
       showBtn.classList.remove("hide-btn");

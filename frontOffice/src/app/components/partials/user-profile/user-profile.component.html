@@ -1,0 +1,30 @@
+<!-- Utilizador -->
+@if(this.user._id !== undefined) {
+    <div class="card mb-4">
+        <div class="card-body text-center">
+          <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+            class="rounded-circle img-fluid" style="width: 150px;"> -->
+            <img src="{{this.user.profileImage}}" alt="avatar"
+            class="rounded-circle img-fluid" style="width: 150px;">
+
+          <h5 class="my-3">{{this.user.name}}</h5>
+          <p class="text-muted mb-4">Tem {{this.user.points}} pontos</p>
+          
+          <div class="d-flex justify-content-center mb-4">
+            <button type="button" (click)="this.router.navigateByUrl('/donor/createDonation')" class="btn btn-primary">Fazer doaçao</button>
+            <button type="button" (click)="this.router.navigateByUrl('/donor/coupons')" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">Cupões</button> 
+          </div>
+
+        </div>
+    </div>
+} @else if(this.entity !== undefined) {
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px" />
+            <h5 class="my-3">{{this.entity.name}}</h5>
+            <!-- <p class="text-muted mb-1">Full Stack Developer</p>
+            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
+        </div>
+    </div>
+}

@@ -1,9 +1,23 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.render('pages/index', { title: 'Administrator Manager', pageType: 'donor' });
-});
+var authentication = require("../controllers/authenticationController")
+var donor = require("../controllers/donorController");
+
+/* GET list vai ser a homepage dos doadores. Vai fazer a listagem */
+router.get("/", authentication.verifyToken, donor.list);
+
+/**
+ * Chamar o formulário para criar um doador
+ */
+router.get("/create", authentication.verifyToken, donor.createDonor);
+
+/**
+ * Edit
+ */
+router.get('/edit/:id', authentication.verifyToken, donor.editDonor)
+
+router.get('/remove/:id', authentication.verifyToken, donor.deleteDonor)
+
 
 module.exports = router;
