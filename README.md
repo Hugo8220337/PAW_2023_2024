@@ -1,8 +1,6 @@
 <h1 align="center">Practical Work on Programação em Ambiente Web (Programming in Web Environment)</h1>
 
-<img src="https://github.com/Hugo8220337/PAW_2023_2024/tree/main/images/mainPage" />
-
-<img src="https://github.com/Hugo8220337/PAW_2023_2024/tree/main/images/donorDashboard" />
+<img src="https://github.com/Hugo8220337/PAW_2023_2024/blob/main/images/mainPage.PNG" />
 
 <p>
   <img src="http://img.shields.io/static/v1?style=for-the-badge&label=School%20year&message=2023/2024&color=sucess"/>
